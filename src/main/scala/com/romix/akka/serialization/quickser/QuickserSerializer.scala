@@ -20,7 +20,7 @@ import akka.serialization._
 import akka.actor.ExtendedActorSystem
 import akka.event.Logging
 
-import com.romix.quickser.Serialization;
+import com.romix.quickser.Serialization
 import com.typesafe.config.ConfigFactory
 import java.util.Map
 import scala.collection.JavaConversions._
@@ -36,32 +36,7 @@ class QuickserSerializer (val system: ExtendedActorSystem) extends Serializer {
 import QuickserSerialization._
 	val log = Logging(system, getClass.getName) 
 
-	val settings = new Settings(system.settings.config)
-
-	val mappings = settings.ClassNameMappings
-
-	locally {
-		log.debug("Got mappings: {}", mappings)
-	}
-
-	val classnames = settings.ClassNames
-
-	locally {
-		log.debug("Got classnames for incremental strategy: {}", classnames)
-	}
-
-	val bufferSize = settings.BufferSize
-
-	locally {
-		log.debug("Got buffer-size: {}", bufferSize)
-	}
-
-	val serializer = new Serialization();
-
-	locally {
-		log.debug("Got serializer: {}", serializer)
-	}
-
+	val serializer = new Serialization()
 
 	// This is whether "fromBinary" requires a "clazz" or not
 	def includeManifest: Boolean = false

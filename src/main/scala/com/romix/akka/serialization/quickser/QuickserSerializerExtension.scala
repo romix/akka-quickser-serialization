@@ -30,26 +30,11 @@ import java.io.NotSerializableException
 
 object QuickserSerialization {
 
+  // This class is forseen for the future, when akka-quickser-serialization will have more
+  // configuration options
   class Settings(val config: Config) {
-  
     import scala.collection.JavaConverters._
     import config._
-
-	// type can be: graph, simple
-    val SerializerType: String = if(config.hasPath("akka.actor.quickser.type")) config.getString("akka.actor.quickser.type") else "graph"
-
-    val BufferSize: Int = if(config.hasPath("akka.actor.quickser.buffer-size")) config.getInt("akka.actor.quickser.buffer-size") else 4096
-	
-	// Each entry should be: FQCN -> integer id
-    val ClassNameMappings: Map[String, String] = if (config.hasPath("akka.actor.quickser.mappings")) configToMap(getConfig("akka.actor.quickser.mappings")) else Map[String, String]()
-
-    val ClassNames: java.util.List[String] = if (config.hasPath("akka.actor.quickser.classes")) config.getStringList("akka.actor.quickser.classes") else new java.util.ArrayList()
-	
-	// Strategy: default, explicit, incremental
-    val IdStrategy: String = if(config.hasPath("akka.actor.protostuff.idstrategy")) config.getString("akka.actor.protostuff.idstrategy") else "default"
-
-    private def configToMap(cfg: Config): Map[String, String] =
-      cfg.root.unwrapped.asScala.toMap.map { case (k, v) => (k, v.toString) }
   }  
 }
 
