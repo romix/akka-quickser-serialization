@@ -40,14 +40,17 @@ import QuickserSerialization._
 
 	val settings = new Settings(system.settings.config)
 
-	val classes = settings.ClassNames 
+	val classnames = settings.ClassNames 
 	
 	locally {
 		// Register classes
 		for(classname <- classnames) {
 			// Load class
 			system.dynamicAccess.getClassFor[AnyRef](classname) match {
-			case Right(clazz) => serializer.registerClass(clazz)
+			case Right(clazz) => {
+				val id = serializer.registerClass(clazz)
+				log.debug("Registered class {} with id {}", classname, id)
+				}
 			case Left(e) => { 
 				log.warning("Class could not be loaded and/or registered: {} ", classname) 
 				/* throw e */ 
