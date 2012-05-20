@@ -38,6 +38,24 @@ import QuickserSerialization._
 
 	val serializer = new Serialization()
 
+	val settings = new Settings(system.settings.config)
+
+	val classes = settings.ClassNames 
+	
+	locally {
+		// Register classes
+		for(classname <- classnames) {
+			// Load class
+			system.dynamicAccess.getClassFor[AnyRef](classname) match {
+			case Right(clazz) => serializer.registerClass(clazz)
+			case Left(e) => { 
+				log.warning("Class could not be loaded and/or registered: {} ", classname) 
+				/* throw e */ 
+				}
+			}
+		}	
+	}
+
 	// This is whether "fromBinary" requires a "clazz" or not
 	def includeManifest: Boolean = false
 

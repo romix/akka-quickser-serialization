@@ -35,6 +35,7 @@ object QuickserSerialization {
   class Settings(val config: Config) {
     import scala.collection.JavaConverters._
     import config._
+    val ClassNames: java.util.List[String] = config.getStringList("akka.actor.quickser.classes")
   }  
 }
 
