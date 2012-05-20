@@ -36,4 +36,23 @@ The following options are available for configuring this serializer:
 			quickser = "com.romix.akka.serialization.quickser.QuickserSerializer"  
 		}    
      
-*    As usual, you should declare in the Akka `serialization-bindings` section which classes should use quickser serialization
+*   As usual, you should declare in the Akka `serialization-bindings` section which classes should use quickser serialization
+
+*   You need to add a following line to the list of your Akka extensions:
+	`extensions = ["com.romix.akka.serialization.quickser.QuickserSerializationExtension$"]`
+	
+*   You may need to add a new `quickser` section to the akka.actor part of configuration  
+
+		quickser  {  
+					  
+			# To guarantee that both sender and receiver use the same numeric ids for the same   
+			# classes it is advised to pre-register them using the "classes" section
+			#    
+			# Define a set of fully qualified class names for   
+			# classes to be used for serialization.  
+			classes = [  
+				"package1.name1.className1",  
+				"package2.name2.className2"  
+			]  
+		}
+
